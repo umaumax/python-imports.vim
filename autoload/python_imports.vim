@@ -61,19 +61,22 @@ function s:PythonAddImport(import)
   return ""
 endfunction
 
-function python_imports#PythonInsert()
-  let l:import = substitute(expand("<cWORD>"), "\\m\\.[^\\.]*$", "", "")
-  let l:import = substitute(l:import, "\\m^.*[(]", "", "")
-  let l:import = substitute(l:import, "\\m\\W\\+$", "", "")
-  if match(l:import, "[^A-Za-z0-9_.-]") != -1
-    let l:import = ""
-  end
+function python_imports#PythonInsert(...)
+  let l:import = get(a:, 1, '')
   if l:import == ""
-    let l:import = input("Module to import: ")
+    let l:import = substitute(expand("<cWORD>"), "\\m\\.[^\\.]*$", "", "")
+    let l:import = substitute(l:import, "\\m^.*[(]", "", "")
+    let l:import = substitute(l:import, "\\m\\W\\+$", "", "")
+    if match(l:import, "[^A-Za-z0-9_.-]") != -1
+      let l:import = ""
+    end
     if l:import == ""
-      return
-    endif
-  end
+      let l:import = input("Module to import: ")
+      if l:import == ""
+        return
+      endif
+    end
+  endif
   call s:PythonAddImport("import " . l:import)
 endfunction
 
