@@ -67,6 +67,7 @@ function python_imports#PythonInsert(...)
     let l:import = substitute(expand("<cWORD>"), "\\m\\.[^\\.]*$", "", "")
     let l:import = substitute(l:import, "\\m^.*[(]", "", "")
     let l:import = substitute(l:import, "\\m\\W\\+$", "", "")
+    let l:import = substitute(l:import, '\..*', "", "")
     if match(l:import, "[^A-Za-z0-9_.-]") != -1
       let l:import = ""
     end
